@@ -1,7 +1,7 @@
 use std::fs::File;
 use std::io::{BufReader, BufRead, Error};
 
-pub fn repair_report(path: &str) -> Result<i64, Error> {
+pub fn repair_report(path: String) -> Result<i64, Error> {
     let input = File::open(path)?;
     let buffered = BufReader::new(input);
 
@@ -26,4 +26,19 @@ pub fn repair_report(path: &str) -> Result<i64, Error> {
     }
     
     Ok(operand_a * operand_b)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::repair_report;
+    
+    #[test]
+    fn solve_day_one_one() {
+        let test_input_path = format!("{}/src/solutions/day_one/day_one_input.txt", env!("CARGO_MANIFEST_DIR"));
+        
+        match repair_report(test_input_path) {
+            Ok(number) => { print!("{}", number)},
+            Err(error) => { print!("Error occurred during search: {}", error)}
+        }
+    }
 }

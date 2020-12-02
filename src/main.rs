@@ -1,10 +1,6 @@
-use solutions::dayone_one::repair_report;
-
 mod solutions;
 
 fn main() {
-    match repair_report("/Users/acochetti/Documents/day1_1_input") {
-        Ok(number) => { print!("{}", number)},
-        Err(error) => { print!("Error occurred during search: {}", error)}
-    }
+    // TODO: Take in arguments from the command line to determine which solution to run
+    println!("This doesn't do anything. Run each solution directly.");
 }
