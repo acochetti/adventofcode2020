@@ -36,7 +36,7 @@ mod tests {
 
     #[test]
     fn solve_day_one_two() {
-        let test_input_path = format!("{}/src/solutions/day_one/day_one_input.txt", env!("CARGO_MANIFEST_DIR"));
+        let test_input_path = format!("{}/src/solutions/day_1/day_1_input.txt", env!("CARGO_MANIFEST_DIR"));
         
         match day_one_two(test_input_path) {
             Ok(number) => { print!("{}", number)},
