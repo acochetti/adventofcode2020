@@ -1,12 +1,11 @@
 use grid::*;
-use std::fs::File;
-use std::io::{BufReader, BufRead, Error};
+use std::io::{Error};
+use crate::utils::input_reader::read_file;
 
 pub fn navigate_map(path: &str, move_right: usize, move_down: usize) -> Result<i64, Error> {
-    let input_file = File::open(path)?;
-    let file_buffer = BufReader::new(input_file);
+    let map_input = read_file(path).unwrap();
     
-    let slope_map = create_map(file_buffer, move_right, move_down);
+    let slope_map = create_map(map_input, move_right);
     
     let mut num_of_trees : i64 = 0;
     let mut continue_travel = true;
@@ -26,13 +25,11 @@ pub fn navigate_map(path: &str, move_right: usize, move_down: usize) -> Result<i
     Ok(num_of_trees)
 }
 
-fn create_map(file_buffer: BufReader<File>, move_right: usize, move_down: usize) -> Grid<char> {
+fn create_map(map_input : Vec<String>, move_right: usize) -> Grid<char> {
     let mut map : Grid<char> = grid!();
     
-    for line_result in file_buffer.lines() {
-        let line = line_result.unwrap();
-        //                             this is hacky and wouldn't work if the input file was longer
-        map.push_row(line.repeat((line.len()) * move_right * move_down).chars().collect())
+    for line in &map_input {
+        map.push_row(line.repeat(move_right * map_input.len() / line.len() + 1).chars().collect())
     }
     
     map

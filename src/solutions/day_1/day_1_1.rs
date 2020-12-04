@@ -1,16 +1,10 @@
-use std::fs::File;
-use std::io::{BufReader, BufRead, Error};
+use std::io::{Error};
+use crate::utils::input_reader::read_file;
 
-pub fn repair_report(path: String) -> Result<i64, Error> {
-    let input = File::open(path)?;
-    let buffered = BufReader::new(input);
-
+pub fn repair_report(path: &str) -> Result<i64, Error> {
     let mut test_input : Vec<i64> = Vec::new();
-    for line in buffered.lines() {
-        match line.unwrap().parse::<i64>() {
-            Ok(n) => test_input.push(n),
-            Err(..) => {}
-        }
+    for line in read_file(path).unwrap() {
+        if let Ok(n) = line.parse::<i64>() { test_input.push(n) }
     }
     
     test_input.sort();
@@ -36,7 +30,7 @@ mod tests {
     fn solve_day_one_one() {
         let test_input_path = format!("{}/src/solutions/day_1/day_1_input.txt", env!("CARGO_MANIFEST_DIR"));
         
-        match repair_report(test_input_path) {
+        match repair_report(&test_input_path) {
             Ok(number) => { print!("{}", number)},
             Err(error) => { print!("Error occurred during search: {}", error)}
         }

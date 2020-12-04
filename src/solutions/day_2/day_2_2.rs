@@ -1,13 +1,9 @@
-use std::io::{Error, BufReader, BufRead};
-use std::fs::File;
+use std::io::{Error};
 use regex::Regex;
+use crate::utils::input_reader::read_file;
 
-pub fn validate_passwords(path: String) -> Result<usize, Error> {
-    let input = File::open(path)?;
-    let buffered = BufReader::new(input);
-
-    let number_of_valid_passwords = buffered.lines()
-        .map(| result | result.unwrap())
+pub fn validate_passwords(path: &str) -> Result<usize, Error> {
+    let number_of_valid_passwords = read_file(path).unwrap().iter()
         .filter(| line | { validate_password(parse_line(line)) })
         .count();
 
@@ -42,7 +38,7 @@ mod tests {
     fn solve_day_two_two() {
         let test_input_path = format!("{}/src/solutions/day_2/day_2_input.txt", env!("CARGO_MANIFEST_DIR"));
 
-        match validate_passwords(test_input_path) {
+        match validate_passwords(&test_input_path) {
             Ok(number) => { print!("{}", number)},
             Err(error) => { print!("Error occurred during search: {}", error)}
         }
